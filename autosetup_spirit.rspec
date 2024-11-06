@@ -1,0 +1,218 @@
+<?xml version='1.0'?>
+<rspec xmlns="http://www.geni.net/resources/rspec/3" type="request" generated_by="jFed RSpec Editor" generated="2024-11-04T14:29:27.752+01:00" xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" xmlns:delay="http://www.protogeni.net/resources/rspec/ext/delay/1" xmlns:jfed-command="http://jfed.iminds.be/rspec/ext/jfed-command/1" xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:jfed-ssh-keys="http://jfed.iminds.be/rspec/ext/jfed-ssh-keys/1" xmlns:jfed="http://jfed.iminds.be/rspec/ext/jfed/1" xmlns:sharedvlan="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd ">
+  <emulab:routable_pool client_id="PublicIPs" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm" count="5" type="any" x="272.3999954223633" y="36.80000381469728"/>
+  <node client_id="Client0" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/N9xyYKFepr8fK5n/download/public_ip.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Tiy9drRYTGSG9fb/download/client_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash public_ip.sh"/>
+      <execute shell="sh" command="sudo bash client_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="75.0" y="31.669248227265957"/>
+    <interface client_id="Client0:if0">
+      <ip address="192.168.0.1" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Switch0" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Lmwfwrm2Rw2xiaq/download/switch_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash switch_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="167.04878830549058" y="211.7392938198021"/>
+    <interface client_id="Switch0:if0">
+      <ip address="192.168.0.2" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Switch0:if1">
+      <ip address="192.168.4.3" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Server" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/N9xyYKFepr8fK5n/download/public_ip.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/9AP3KKFTitoJF5a/download/server_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash public_ip.sh"/>
+      <execute shell="sh" command="sudo bash server_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="274.7505511044367" y="367.8"/>
+    <interface client_id="Server:if0">
+      <ip address="192.168.4.4" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Server:if1">
+      <ip address="192.168.5.4" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Server:if2">
+      <ip address="192.168.6.4" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Server:if3">
+      <ip address="192.168.7.4" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Switch1" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Lmwfwrm2Rw2xiaq/download/switch_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash switch_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="383.38682117346065" y="233.0809288529915"/>
+    <interface client_id="Switch1:if0">
+      <ip address="192.168.1.2" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Switch1:if1">
+      <ip address="192.168.5.3" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Client1" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/N9xyYKFepr8fK5n/download/public_ip.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Tiy9drRYTGSG9fb/download/client_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash public_ip.sh"/>
+      <execute shell="sh" command="sudo bash client_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="500.20000000000005" y="25.0"/>
+    <interface client_id="Client1:if0">
+      <ip address="192.168.1.1" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Switch2" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Lmwfwrm2Rw2xiaq/download/switch_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash switch_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="159.0" y="458.5"/>
+    <interface client_id="Switch2:if0">
+      <ip address="192.168.2.2" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Switch2:if1">
+      <ip address="192.168.6.3" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Client2" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/N9xyYKFepr8fK5n/download/public_ip.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Tiy9drRYTGSG9fb/download/client_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash public_ip.sh"/>
+      <execute shell="sh" command="sudo bash client_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="80.0" y="638.5"/>
+    <interface client_id="Client2:if0">
+      <ip address="192.168.2.1" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Switch3" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Lmwfwrm2Rw2xiaq/download/switch_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash switch_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="384.0" y="443.5"/>
+    <interface client_id="Switch3:if0">
+      <ip address="192.168.3.2" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="Switch3:if1">
+      <ip address="192.168.7.3" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <node client_id="Client3" exclusive="true" component_manager_id="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm">
+    <sliver_type name="raw-pc">
+      <disk_image name="urn:publicid:IDN+wall2.ilabt.iminds.be+image+ilabt-imec-be:ubuntu-20-04-lts:0"/>
+    </sliver_type>
+    <services>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/SotkAJsEa9KGTBo/download/create_lan3.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/N9xyYKFepr8fK5n/download/public_ip.sh"/>
+      <execute shell="sh" command="sudo wget https://cloud.ilabt.imec.be/index.php/s/Tiy9drRYTGSG9fb/download/client_install.sh"/>
+      <execute shell="sh" command="sudo bash create_lan3.sh"/>
+      <execute shell="sh" command="sudo bash public_ip.sh"/>
+      <execute shell="sh" command="sudo bash client_install.sh"/>
+    </services>
+    <location xmlns="http://jfed.iminds.be/rspec/ext/jfed/1" x="500.0" y="637.5"/>
+    <interface client_id="Client3:if0">
+      <ip address="192.168.3.1" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+  </node>
+  <link client_id="link0">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Client0:if0"/>
+    <interface_ref client_id="Switch0:if0"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link1">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Client1:if0"/>
+    <interface_ref client_id="Switch1:if0"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link2">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Switch0:if1"/>
+    <interface_ref client_id="Server:if0"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link3">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Switch1:if1"/>
+    <interface_ref client_id="Server:if1"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link4">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Client2:if0"/>
+    <interface_ref client_id="Switch2:if0"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link5">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Client3:if0"/>
+    <interface_ref client_id="Switch3:if0"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link6">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Switch2:if1"/>
+    <interface_ref client_id="Server:if2"/>
+    <link_type name="lan"/>
+  </link>
+  <link client_id="link7">
+    <component_manager name="urn:publicid:IDN+wall2.ilabt.iminds.be+authority+cm"/>
+    <interface_ref client_id="Switch3:if1"/>
+    <interface_ref client_id="Server:if3"/>
+    <link_type name="lan"/>
+  </link>
+</rspec>

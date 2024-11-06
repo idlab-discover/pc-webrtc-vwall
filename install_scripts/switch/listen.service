@@ -1,0 +1,11 @@
+[Unit]
+Description=Directory Monitor Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/listen.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

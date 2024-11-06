@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Configurations</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .cell-container {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .cell-header {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .cell-container {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white; /* Text color */
+    z-index: 10; /* Make sure the overlay is above other content */
+    display: flex; /* Initially hidden */
+}
+
+.overlay.show {
+    display: flex; /* Show the overlay when needed */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Title aligned to the left -->
+            <h1 class="mb-0">Virtual Wall Dashboard (empty = ignore)</h1>
+        
+            <!-- Button and checkbox aligned to the right -->
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2" onclick="startSfuServer()">Start SFU Server</button>
+                
+                <div class="form-check me-2"> <!-- Added me-3 to create space -->
+                    <input class="form-check-input" type="checkbox" id="enableGCC" checked>
+                    <label class="form-check-label" for="enableGCC">
+                        Enable GCC
+                    </label>
+                    
+                </div>
+                <div class="form-check me-2"> <!-- Added me-3 to create space -->
+                    <input class="form-check-input" type="checkbox" id="enableABR" checked>
+                    <label class="form-check-label" for="enableABR">
+                        Enable ABR
+                    </label>
+                    
+                </div>
+                <button class="btn btn-danger" onclick="stopSfuServer()">Stop SFU Server</button> <!-- Removed extra me-2 -->
+            </div>
+            
+            
+        </div>
+
+        <!-- Row to hold multiple cells in a row -->
+        <div class="row g-4">
+                <!-- Cell 1 -->
+                <div class="col-md-3">
+                    <div class="cell-container position-relative"> <!-- Added position-relative -->
+                        <!-- Header with Download VPN File button -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="cell-header">Switch 0</div>
+                            <button class="btn btn-success btn-sm" onclick="getOpenVPN(0)">Download VPN File</button>
+                        </div>
+                    
+                        <!-- Part 1: Traffic to Client -->
+                        <div class="mb-3">
+                            <h5 class="mb-2">Traffic to Client</h5>
+                            <div class="row mb-2">
+                                <label for="bandwidthToClient0" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="bandwidthToClient0" placeholder="200">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="latencyToClient0" class="col-5 col-form-label">Latency (ms)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="latencyToClient0" placeholder="30">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="jitterToClient0" class="col-5 col-form-label">Jitter (ms)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="jitterToClient0" placeholder="8">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="packetlossToClient0" class="col-5 col-form-label">Packet Loss (%)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="packetlossToClient0" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <input type="hidden" id="interfaceTo0" value="">
+                                <button class="btn btn-primary" onclick="setInterfaceParameters(0, true)">Save</button>
+                            </div>
+                        </div>
+                    
+                        <!-- Divider -->
+                        <hr>
+                    
+                        <!-- Part 2: Traffic from Client -->
+                        <div class="mb-3">
+                            <h5 class="mb-2">Traffic from Client</h5>
+                            <div class="row mb-2">
+                                <label for="bandwidthFromClient0" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="bandwidthFromClient0" placeholder="200">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="latencyFromClient0" class="col-5 col-form-label">Latency (ms)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="latencyFromClient0" placeholder="30">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="jitterFromClient0" class="col-5 col-form-label">Jitter (ms)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="jitterFromClient0" placeholder="8">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="packetlossFromClient0" class="col-5 col-form-label">Packet Loss (%)</label>
+                                <div class="col-7">
+                                    <input type="number" class="form-control" id="packetlossFromClient0" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <input type="hidden" id="interfaceFrom0" value="">
+                                <button class="btn btn-primary" onclick="setInterfaceParameters(0, false)">Save</button>
+                            </div>
+                        </div>
+            
+                        <!-- Overlay -->
+                        <div class="overlay d-flex justify-content-center align-items-center" id="overlay0">
+                            <div class="text-center">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="text-light">Connecting...</div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+           
+            
+
+            <!-- Cell 2 -->
+            <div class="col-md-3">
+                <div class="cell-container position-relative"> <!-- Added position-relative -->
+                    <!-- Header with Download VPN File button -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="cell-header">Switch 1</div>
+                        <button class="btn btn-success btn-sm" onclick="getOpenVPN(1)">Download VPN File</button>
+                    </div>
+                
+                    <!-- Part 1: Traffic to Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic to Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthToClient1" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthToClient1" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyToClient1" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyToClient1" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterToClient1" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterToClient1" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossToClient1" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossToClient1" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceTo1" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(1, true)">Save</button>
+                        </div>
+                    </div>
+                
+                    <!-- Divider -->
+                    <hr>
+                
+                    <!-- Part 2: Traffic from Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic from Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthFromClient1" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthFromClient1" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyFromClient1" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyFromClient1" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterFromClient1" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterFromClient1" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossFromClient1" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossFromClient1" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceFrom1" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(1, false)">Save</button>
+                        </div>
+                    </div>
+        
+                    <!-- Overlay -->
+                    <div class="overlay d-flex justify-content-center align-items-center" id="overlay1">
+                        <div class="text-center">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="text-light">Connecting...</div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+            <!-- Cell 3 -->
+            <div class="col-md-3">
+                <div class="cell-container position-relative"> <!-- Added position-relative -->
+                    <!-- Header with Download VPN File button -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="cell-header">Switch 2</div>
+                        <button class="btn btn-success btn-sm" onclick="getOpenVPN(2)">Download VPN File</button>
+                    </div>
+                
+                    <!-- Part 1: Traffic to Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic to Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthToClient2" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthToClient2" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyToClient2" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyToClient2" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterToClient2" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterToClient2" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossToClient2" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossToClient2" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceTo2" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(2, true)">Save</button>
+                        </div>
+                    </div>
+                
+                    <!-- Divider -->
+                    <hr>
+                
+                    <!-- Part 2: Traffic from Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic from Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthFromClient2" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthFromClient2" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyFromClient2" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyFromClient2" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterFromClient2" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterFromClient2" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossFromClient2" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossFromClient2" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceFrom2" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(2, false)">Save</button>
+                        </div>
+                    </div>
+        
+                    <!-- Overlay -->
+                    <div class="overlay d-flex justify-content-center align-items-center" id="overlay2">
+                        <div class="text-center">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="text-light">Connecting...</div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+            
+            <!-- Cell 4 -->
+            <div class="col-md-3">
+                <div class="cell-container position-relative"> <!-- Added position-relative -->
+                    <!-- Header with Download VPN File button -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="cell-header">Switch 3</div>
+                        <button class="btn btn-success btn-sm" onclick="getOpenVPN(3)">Download VPN File</button>
+                    </div>
+                
+                    <!-- Part 1: Traffic to Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic to Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthToClient3" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthToClient3" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyToClient3" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyToClient3" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterToClient3" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterToClient3" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossToClient3" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossToClient3" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceTo3" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(3, true)">Save</button>
+                        </div>
+                    </div>
+                
+                    <!-- Divider -->
+                    <hr>
+                
+                    <!-- Part 2: Traffic from Client -->
+                    <div class="mb-3">
+                        <h5 class="mb-2">Traffic from Client</h5>
+                        <div class="row mb-2">
+                            <label for="bandwidthFromClient3" class="col-5 col-form-label">Bandwidth (Mbps)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="bandwidthFromClient3" placeholder="200">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="latencyFromClient3" class="col-5 col-form-label">Latency (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="latencyFromClient3" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="jitterFromClient3" class="col-5 col-form-label">Jitter (ms)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="jitterFromClient3" placeholder="8">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="packetlossFromClient3" class="col-5 col-form-label">Packet Loss (%)</label>
+                            <div class="col-7">
+                                <input type="number" class="form-control" id="packetlossFromClient3" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="hidden" id="interfaceFrom3" value="">
+                            <button class="btn btn-primary" onclick="setInterfaceParameters(3, false)">Save</button>
+                        </div>
+                    </div>
+        
+                    <!-- Overlay -->
+                    <div class="overlay d-flex justify-content-center align-items-center" id="overlay3">
+                        <div class="text-center">
+                            <div class="spinner-border text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="text-light">Connecting...</div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        
+        <!-- Add more rows with cells here by duplicating the row structure -->
+
+    </div>
+
+    <!-- Bootstrap JS (Optional if you need JS interactions) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Link to the external JavaScript file -->
+    <script src="{{ url_for('static', filename='functions.js') }}"></script>
+</body>
+</html>
